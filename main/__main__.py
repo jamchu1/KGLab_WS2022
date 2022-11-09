@@ -18,124 +18,21 @@ PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?scientific_conference_seriesItem ?scientific_conference_series
-  ?VIAF_ID
-  ?GND_ID
-  ?Bibliothèque_nationale_de_France_ID
-  ?Library_of_Congress_authority_ID
-  ?IdRef_ID
-  ?has_part_s_Item
-  ?inception
-  ?Freebase_ID
   ?official_website
-  ?organizerItem
-  ?main_subjectItem
   ?title
-  ?described_at_URL
-  ?short_name
-  ?DBLP_venue_ID
-  ?Google_Knowledge_Graph_ID
-  ?language_usedItem
-  ?URL
-  ?WikiCFP_conference_series_ID
-  ?Microsoft_Academic_ID
-  ?National_Library_of_Israel_J9U_ID
 WHERE {
   # instanceof Q47258130:scientific conference series
   ?scientific_conference_seriesItem wdt:P31 wd:Q47258130.
   # label
   ?scientific_conference_seriesItem rdfs:label ?scientific_conference_series.  
   FILTER (LANG(?scientific_conference_series) = "en").
-  # VIAF ID (P214)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P214 ?VIAF_ID. 
-  }
-  # GND ID (P227)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P227 ?GND_ID. 
-  }
-  # Bibliothèque nationale de France ID (P268)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P268 ?Bibliothèque_nationale_de_France_ID. 
-  }
-  # Library of Congress authority ID (P244)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P244 ?Library_of_Congress_authority_ID. 
-  }
-  # IdRef ID (P269)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P269 ?IdRef_ID. 
-  }
-  # has part(s) (P527)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P527 ?has_part_s_Item. 
-    ?has_part_s_Item rdfs:label ?has_part_s_.
-    FILTER (LANG(?has_part_s_) = "en").
-  }
-  # inception (P571)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P571 ?inception. 
-  }
-  # Freebase ID (P646)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P646 ?Freebase_ID. 
-  }
   # official website (P856)
   OPTIONAL { 
     ?scientific_conference_seriesItem wdt:P856 ?official_website. 
   }
-  # organizer (P664)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P664 ?organizerItem. 
-    ?organizerItem rdfs:label ?organizer.
-    FILTER (LANG(?organizer) = "en").
-  }
-  # main subject (P921)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P921 ?main_subjectItem. 
-    ?main_subjectItem rdfs:label ?main_subject.
-    FILTER (LANG(?main_subject) = "en").
-  }
   # title (P1476)
   OPTIONAL { 
     ?scientific_conference_seriesItem wdt:P1476 ?title. 
-  }
-  # described at URL (P973)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P973 ?described_at_URL. 
-  }
-  # short name (P1813)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P1813 ?short_name. 
-  }
-  # DBLP venue ID (P8926)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P8926 ?DBLP_venue_ID. 
-  }
-  # Google Knowledge Graph ID (P2671)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P2671 ?Google_Knowledge_Graph_ID. 
-  }
-  # language used (P2936)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P2936 ?language_usedItem. 
-    ?language_usedItem rdfs:label ?language_used.
-    FILTER (LANG(?language_used) = "en").
-  }
-  # URL (P2699)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P2699 ?URL. 
-  }
-  # WikiCFP conference series ID (P5127)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P5127 ?WikiCFP_conference_series_ID. 
-  }
-  # Microsoft Academic ID (P6366)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P6366 ?Microsoft_Academic_ID. 
-  }
-  # National Library of Israel J9U ID (P8189)
-  OPTIONAL { 
-    ?scientific_conference_seriesItem wdt:P8189 ?National_Library_of_Israel_J9U_ID. 
   }
 }
 LIMIT 1000
