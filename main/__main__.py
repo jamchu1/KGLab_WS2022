@@ -138,8 +138,12 @@ WHERE {
     ?scientific_conference_seriesItem wdt:P8189 ?National_Library_of_Israel_J9U_ID. 
   }
 }
+LIMIT 1000
 """
-results=wd.query(queryString)[0:1000]
+#results=wd.query(queryString)[0:1000]
+results=wd.query(queryString)
 
 for e in results:
+  if e.get('official_website'):
     print(e.get('scientific_conference_series'), e.get('official_website'))
+    print(str(e.get('official_website')).split('\'')[1])
