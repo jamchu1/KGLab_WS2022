@@ -4,7 +4,7 @@ import sqlite3
 from lodstorage.sparql import SPARQL
 
 # creating file path
-dbfile = '../EventCorpus.db'
+dbfile = 'EventCorpus.db'
 # Create a SQL connection to our SQLite database
 con = sqlite3.connect(dbfile)
 
