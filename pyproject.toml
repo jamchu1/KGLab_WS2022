@@ -1,9 +1,7 @@
 
 
 [project]
-name = "pysotsog"
-# flit_core.config.ConfigError: license field should be <class 'dict'>, not <class 'str'>
-license = { file="LICENSE" }
+name = "kglab_ws2022"
 dependencies = [
 		# https://github.com/justpy-org/justpy
         'justpy~=0.11.3',
@@ -22,4 +20,5 @@ dependencies = [
         # https://pypi.org/project/semanticscholar/
         'semanticscholar~=0.3.0'
      ]
+version = "0.1.0"
 
