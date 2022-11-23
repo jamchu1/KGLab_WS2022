@@ -5,7 +5,7 @@ from lodstorage.sparql import SPARQL
 
 # creating file path
 dbfile = 'ConferenceCorpus\EventCorpus.db'
-# Create a SQL connection to our SQLite database
+# Create a SQL connection to our SQLite database 
 con = sqlite3.connect(dbfile)
 
 # creating cursor
