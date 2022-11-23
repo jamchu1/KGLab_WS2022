@@ -1,4 +1,5 @@
 from tests.basetest import Basetest
+from KGLab_WS2022.database_utils import DatabaseUtils
 
 class TestWikidataSearch(Basetest):
     """
@@ -6,7 +7,7 @@ class TestWikidataSearch(Basetest):
     """
     
     def test_mock(self):
-        print("hallo")
-        self.assertEqual(2,2)
+        data = DatabaseUtils.readDB()
+        self.assertGreater(len(data), 0)
         pass
     
