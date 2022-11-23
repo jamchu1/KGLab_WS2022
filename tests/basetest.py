@@ -19,7 +19,7 @@ class Basetest(TestCase):
 
     def tearDown(self):
         TestCase.tearDown(self)
-        self.profiler.time()
+        #self.profiler.time()
 
     @staticmethod
     def inPublicCI():
