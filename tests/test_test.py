@@ -5,7 +5,7 @@ class TestWikidataSearch(Basetest):
     test the wikidata search
     """
     
-    def mock_test(self):
+    def test_mock(self):
         print("hallo")
         self.assertEqual(2,2)
         pass
