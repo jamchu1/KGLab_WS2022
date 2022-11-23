@@ -1,7 +1,6 @@
 import getpass
 from unittest import TestCase
 import os
-from skg.profiler import Profiler
 
 class Basetest(TestCase):
     """
@@ -16,7 +15,7 @@ class Basetest(TestCase):
         self.debug = debug
         self.profile = profile
         msg = f"test {self._testMethodName}, debug={self.debug}"
-        self.profiler = Profiler(msg, profile=self.profile)
+        #self.profiler = Profiler(msg, profile=self.profile)
 
     def tearDown(self):
         TestCase.tearDown(self)
