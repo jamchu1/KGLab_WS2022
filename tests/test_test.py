@@ -6,9 +6,9 @@ class TestTest(Basetest):
     test the wikidata search
     """
     
-    def test_mock(self):
-        #data = DatabaseUtils.readDB()
-        #self.assertGreater(len(data), 0)
-        self.assertEquals(0, 0)
+    def test_readDB(self):
+        events = DatabaseUtils.readDB()
+
+        self.assertGreater(len(events), 0)
         pass
     
