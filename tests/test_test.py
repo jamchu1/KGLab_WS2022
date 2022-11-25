@@ -6,9 +6,13 @@ class TestTest(Basetest):
     test the wikidata search
     """
     
-    def test_readDB(self):
-        events = DatabaseUtils.readDB()
-
+    def test_read_events_fromDB(self):
+        dbfile="/Users/wf/.conferencecorpus/EventCorpus.db"
+        events = DatabaseUtils.extract_events(dbfile)
+        debug=self.debug
+        debug=True
+        if debug:
+            print(f"found {len(events)} events!")
         self.assertGreater(len(events), 0)
         pass
     
