@@ -130,3 +130,6 @@ dmypy.json
 
 # Eclipse/Liclipse
 # .project
+
+# Visual Studio Code
+.vscode
