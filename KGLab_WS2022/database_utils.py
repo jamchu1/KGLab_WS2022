@@ -56,7 +56,7 @@ class Download:
 class DatabaseUtils:
 
     @staticmethod
-    def extract_events(dbfile="databases/EventCorpus.db", cachefile="databases/event.db"):
+    def extract_events(dbfile="KGLab_WS2022/databases/EventCorpus.db", cachefile="KGLab_WS2022/databases/event.db"):
         #create new table
         sqlDB = SQLDB(cachefile, debug=True, errorDebug=True)
         if Download.isEmpty(cachefile):

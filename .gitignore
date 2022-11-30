@@ -135,4 +135,4 @@ dmypy.json
 .vscode
 
 # databases
-databases/EventCorpus.db
+KGLab_WS2022/databases/EventCorpus.db
