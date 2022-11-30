@@ -5,5 +5,5 @@ from database_utils import DatabaseUtils
 from lodstorage.sparql import SPARQL
 
 
-print(DatabaseUtils.readDB())
+print(DatabaseUtils.extract_events())
     
