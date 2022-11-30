@@ -1,5 +1,6 @@
 from tests.basetest import Basetest
 from KGLab_WS2022.database_utils import DatabaseUtils
+import os
 
 class TestTest(Basetest):
     """
@@ -7,8 +8,7 @@ class TestTest(Basetest):
     """
     
     def test_read_events_fromDB(self):
-        dbfile="/Users/wf/.conferencecorpus/EventCorpus.db"
-        events = DatabaseUtils.extract_events(dbfile)
+        events = DatabaseUtils.extract_events()
         debug=self.debug
         debug=True
         if debug:

@@ -56,7 +56,7 @@ class Download:
 class DatabaseUtils:
 
     @staticmethod
-    def extract_events(dbfile:str= 'ConferenceCorpus\EventCorpus.db', cachefile="/tmp/event.db"):
+    def extract_events(dbfile="databases/EventCorpus.db", cachefile="databases/event.db"):
         #create new table
         sqlDB = SQLDB(cachefile, debug=True, errorDebug=True)
         if Download.isEmpty(cachefile):
