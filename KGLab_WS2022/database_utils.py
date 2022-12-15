@@ -1,5 +1,8 @@
-import lodstorage
 from lodstorage.sql import SQLDB, EntityInfo
+from table import Table
+from series import Series
+from series import fromDBSeries
+from past_event import fromDBEvent
 
 from lodstorage.sparql import SPARQL
 import os
@@ -57,36 +60,57 @@ class DatabaseUtils:
 
     @staticmethod
     def extract_events(dbfile="KGLab_WS2022/databases/EventCorpus.db", cachefile="KGLab_WS2022/databases/event.db"):
-        #create new table
+        # create new table
         sqlDB = SQLDB(cachefile, debug=True, errorDebug=True)
         if Download.isEmpty(cachefile):
+            # create cachefile
             if not os.path.isfile(dbfile):
+                # TODO download DB file
                 raise Exception(f"dbfile {dbfile} does not exist!")
             
             # Create a SQL connection to our SQLite database 
             cc_sqlDB = SQLDB(dbfile)
 
-            # reading all table names
-            #table_list = [a for a in cur.execute("SELECT name FROM sqlite_master WHERE type = 'table'")]
-    
-            event_list = []
-    
-            for sqlQuery in ["SELECT acronym, homepage FROM eventseries_wikidata WHERE homepage IS NOT NULL",
-              "SELECT acronym, homepage FROM eventseries_or WHERE homepage IS NOT NULL"]:
-                subList = cc_sqlDB.query(sqlQuery)
-                event_list.extend(subList)
-    
+            # store data in cachefile
+            DatabaseUtils.cacheDBHelper(oldDB=cc_sqlDB,newDB=sqlDB,entityName="eventseries_wikidata",query=
+                "SELECT eventSeriesId, acronym, title, homepage FROM eventseries_wikidata WHERE homepage IS NOT NULL"
+            )
+            DatabaseUtils.cacheDBHelper(oldDB=cc_sqlDB,newDB=sqlDB,entityName="eventseries_or",query=
+                "SELECT acronym, title, homepage FROM eventseries_or WHERE homepage IS NOT NULL"
+            )
+            DatabaseUtils.cacheDBHelper(oldDB=cc_sqlDB,newDB=sqlDB,entityName="event_wikidata",query=
+                "SELECT eventInSeriesId, eventTitle as title, location, country, startDate, endDate, year, language, homepage FROM event_wikidata"
+            )
+            DatabaseUtils.cacheDBHelper(oldDB=cc_sqlDB,newDB=sqlDB,entityName="event_or",query=
+                "SELECT inEventSeries, title, country, startDate, endDate, year, homepage FROM event_or"
+            )
             cc_sqlDB.close()
 
-            entityInfo=sqlDB.createTable(event_list,entityName="event_series",primaryKey=None)
-            sqlDB.store(event_list,entityInfo,executeMany=True,fixNone=True)
-        else:
-            sampleRecords=[
-                {
-                     "acronym": "ESWC",
-                     "homepage": "http://eswc.xy"
-                }]
-            entityInfo=EntityInfo(sampleRecords,"event_series",primaryKey=None)
-            event_list=sqlDB.queryAll(entityInfo)
+        # construct table
+        table = Table()
+        # wikidata
+        entityInfo = EntityInfo([],"eventseries_wikidata", primaryKey=None)
+        wdSeriesList = sqlDB.queryAll(entityInfo)
+        for seriesEntry in wdSeriesList:
+            events = sqlDB.query("SELECT * FROM event_wikidata WHERE eventInSeriesId = '" + seriesEntry["eventSeriesId"] + "'")
+            series = fromDBSeries(seriesEntry)
+            for event in events:
+                series.eventList.append(fromDBEvent(event))
+            table.eventseriesList.append(series)
+        # open research
+        entityInfo = EntityInfo([],"eventseries_or", primaryKey=None)
+        orSeriesList = sqlDB.queryAll(entityInfo)
+        for seriesEntry in orSeriesList:
+            events = sqlDB.query("SELECT * FROM event_or WHERE inEventSeries = '" + seriesEntry["acronym"] + "'")
+            series = fromDBSeries(seriesEntry)
+            for event in events:
+                series.eventList.append(fromDBEvent(event))
+            table.eventseriesList.append(series)
 
-        return event_list
+        return table
+
+    @staticmethod
+    def cacheDBHelper(oldDB, newDB, query, entityName):
+        data = oldDB.query(query)
+        entityInfo=newDB.createTable(data,entityName=entityName,primaryKey=None)
+        newDB.store(data,entityInfo,executeMany=True,fixNone=True)
