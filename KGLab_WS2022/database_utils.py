@@ -87,7 +87,7 @@ class DatabaseUtils:
             cc_sqlDB.close()
 
         # construct table
-        table = Table()
+        table = Table([])
         # wikidata
         entityInfo = EntityInfo([],"eventseries_wikidata", primaryKey=None)
         wdSeriesList = sqlDB.queryAll(entityInfo)

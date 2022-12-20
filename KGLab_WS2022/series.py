@@ -7,7 +7,7 @@ class Series:
     acronym: str
     title: str
     homepage: str
-    eventList: list[PastEvent] = field(default_factory=list)
+    eventList: list[PastEvent]
 
 @staticmethod
 def fromDBSeries(series):
