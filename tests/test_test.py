@@ -8,11 +8,12 @@ class TestTest(Basetest):
     """
     
     def test_read_events_fromDB(self):
-        events = DatabaseUtils.extract_events()
+        table = DatabaseUtils.extract_events()
         debug=self.debug
         debug=True
         if debug:
-            print(f"found {len(events)} events!")
-        self.assertGreater(len(events), 0)
+            print(f"found {len(table.eventseriesList)} events!")
+        
+        self.assertGreater(len(table.eventseriesList), 0)
         pass
     

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from event import Event
-from series import Series
+from KGLab_WS2022.event import Event
+from KGLab_WS2022.series import Series
 
 @dataclass
 class PredEvent(Event):
