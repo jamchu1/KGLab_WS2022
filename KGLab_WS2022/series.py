@@ -1,13 +1,14 @@
 from dataclasses import dataclass
 from dataclasses import field
 from KGLab_WS2022.past_event import PastEvent
+from typing import List
 
 @dataclass
 class Series:
     acronym: str
     title: str
     homepage: str
-    eventList: list[PastEvent]
+    eventList: List[PastEvent]
 
 @staticmethod
 def fromDBSeries(series):
