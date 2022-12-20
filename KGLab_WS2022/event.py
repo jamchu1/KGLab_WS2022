@@ -10,3 +10,4 @@ class Event:
     year: str
     language: str
     homepage: str
+    ordinal: str

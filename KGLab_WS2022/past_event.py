@@ -16,6 +16,7 @@ def fromDBEvent(event):
         homepage=event["homepage"],
         wikidataId=["eventseriesId"],
         # could be None
+        ordinal=event.get("ordinal"),
         location=event.get("location"),
         language=event.get("language"),
     )

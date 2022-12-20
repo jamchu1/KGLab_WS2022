@@ -79,10 +79,10 @@ class DatabaseUtils:
                 "SELECT acronym, title, homepage FROM eventseries_or WHERE homepage IS NOT NULL"
             )
             DatabaseUtils.cacheDBHelper(oldDB=cc_sqlDB,newDB=sqlDB,entityName="event_wikidata",query=
-                "SELECT eventInSeriesId, eventTitle as title, location, country, startDate, endDate, year, language, homepage FROM event_wikidata"
+                "SELECT eventInSeriesId, eventTitle as title, location, country, startDate, endDate, year, language, homepage, ordinal FROM event_wikidata"
             )
             DatabaseUtils.cacheDBHelper(oldDB=cc_sqlDB,newDB=sqlDB,entityName="event_or",query=
-                "SELECT inEventSeries, title, country, startDate, endDate, year, homepage FROM event_or"
+                "SELECT inEventSeries, title, country, startDate, endDate, year, homepage, ordinal FROM event_or"
             )
             cc_sqlDB.close()
 
