@@ -10,6 +10,6 @@ class Series:
     homepage: str
     eventList: List[PastEvent]
 
-@staticmethod
+#@staticmethod
 def fromDBSeries(series):
     return Series(acronym=series["acronym"], title=series["title"], homepage=series["homepage"], eventList=[])

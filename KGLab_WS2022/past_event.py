@@ -5,7 +5,7 @@ from KGLab_WS2022.event import Event
 class PastEvent(Event):
     wikidataId: str
 
-@staticmethod
+#@staticmethod
 def fromDBEvent(event):
     return PastEvent(
         eventTitle=event["title"],
