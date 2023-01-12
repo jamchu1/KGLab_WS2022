@@ -73,7 +73,10 @@ class DatabaseUtils:
 
     @staticmethod
     def extract_events(dbfilePath="KGLab_WS2022/databases/EventCorpus.db", cachefilePath="KGLab_WS2022/databases/event.db"):
-        # create new table
+        # create cachefile
+        # github tests crashed when there was no chachefile
+        file = open(cachefilePath, "x")
+        file.close()
         sqlDB = SQLDB(cachefilePath, debug=True, errorDebug=True)
         if Download.isEmpty(cachefilePath):
             # create cachefile
