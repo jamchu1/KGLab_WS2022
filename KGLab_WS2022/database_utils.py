@@ -56,20 +56,32 @@ class Download:
             result=force or size==0
         return result
 
+    @staticmethod
+    def downloadAndExtract(url, filenameExt, targetPath):
+        urllib.request.urlretrieve(url, targetPath + "." + filenameExt)
+        with gzip.open(targetPath + "." + filenameExt, 'rb') as gzipped:
+            with open(targetPath, 'wb') as unzipped:
+                shutil.copyfileobj(gzipped, unzipped)
+        os.remove(targetPath + "." + filenameExt)
+        if not os.path.isfile(targetPath):
+            raise (f"could not extract file from {targetPath}.{filenameExt}")
+
 class DatabaseUtils:
+    
+    dbURL = "https://confident.dbis.rwth-aachen.de/downloads/conferencecorpus/EventCorpus.db.gz"
+    dbFileExt = "gz"
 
     @staticmethod
-    def extract_events(dbfile="KGLab_WS2022/databases/EventCorpus.db", cachefile="KGLab_WS2022/databases/event.db"):
+    def extract_events(dbfilePath="KGLab_WS2022/databases/EventCorpus.db", cachefilePath="KGLab_WS2022/databases/event.db"):
         # create new table
-        sqlDB = SQLDB(cachefile, debug=True, errorDebug=True)
-        if Download.isEmpty(cachefile):
+        sqlDB = SQLDB(cachefilePath, debug=True, errorDebug=True)
+        if Download.isEmpty(cachefilePath):
             # create cachefile
-            if not os.path.isfile(dbfile):
-                # TODO download DB file
-                raise Exception(f"dbfile {dbfile} does not exist!")
-            
+            if not os.path.isfile(dbfilePath):
+                # download the database
+                Download.downloadAndExtract(DatabaseUtils.dbURL, DatabaseUtils.dbFileExt, dbfilePath)
             # Create a SQL connection to our SQLite database 
-            cc_sqlDB = SQLDB(dbfile)
+            cc_sqlDB = SQLDB(dbfilePath)
 
             # store data in cachefile
             DatabaseUtils.cacheDBHelper(oldDB=cc_sqlDB,newDB=sqlDB,entityName="eventseries_wikidata",query=

@@ -14,9 +14,9 @@ def fromDBEvent(event):
         endDate=event["endDate"],
         year=event["year"],
         homepage=event["homepage"],
-        wikidataId=["eventseriesId"],
         # could be None
         ordinal=event.get("ordinal"),
+        wikidataId=event.get("eventseriesId"),
         location=event.get("location"),
         language=event.get("language"),
     )
