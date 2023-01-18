@@ -3,6 +3,7 @@ from KGLab_WS2022.table import Table
 from KGLab_WS2022.series import Series
 from KGLab_WS2022.series import fromDBSeries
 from KGLab_WS2022.past_event import fromDBEvent
+from pathlib import Path
 
 from lodstorage.sparql import SPARQL
 import os
@@ -73,6 +74,8 @@ class DatabaseUtils:
 
     @staticmethod
     def extract_events(dbfilePath="KGLab_WS2022/databases/EventCorpus.db", cachefilePath="KGLab_WS2022/databases/event.db"):
+        # create folder if not exists
+        Path("KGLab_WS2022/databases").mkdir(parents=True, exist_ok=True)
         # create cachefile
         sqlDB = SQLDB(cachefilePath, debug=True, errorDebug=True)
         if Download.isEmpty(cachefilePath):
