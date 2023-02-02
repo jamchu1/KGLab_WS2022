@@ -9,13 +9,25 @@ class URLPredictorTest(Basetest):
     """
     
     def test_check_homepage(self):
-        # empty/invalid url        
+        # empty url        
         self.assertEqual(
             URLPredictor.check_homepage(self, ""),
             False
         )
 
-        # valid url
+        # invalid url
+        self.assertEqual(
+            URLPredictor.check_homepage(self, "bananabread"),
+            False
+        )
+
+        # valid but nonexistant url
+        self.assertEqual(
+            URLPredictor.check_homepage(self, "bananabread.tv"),
+            False
+        )
+
+        # valid and existant url
         self.assertEqual(
             URLPredictor.check_homepage(self, "https:///google.com/"),
             False        
@@ -23,13 +35,40 @@ class URLPredictorTest(Basetest):
 
         pass
 
-    '''
-    I couldn't find an example event yet, where the ordinal number appears in the homepage-url. Maybe this is not necessary?
-    def test_predict_ordinal(self):
-        
-    '''
+    def test_create_potential_homepages(self):
+        # year exists and is contained in url
+        url_predictor = URLPredictor()
+        pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2008/", "2008")
 
-    def test_predict_year(self):
+        self.assertEqual(pred_homepages, ["https://iceis.scitevents.org/ICEIS2009/", "https://iceis.scitevents.org/ICEIS2010/", "https://iceis.scitevents.org/ICEIS2011/", "https://iceis.scitevents.org/ICEIS2012/", "https://iceis.scitevents.org/ICEIS2013/"])
+
+        # year is an empty string
+        url_predictor = URLPredictor()
+        pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2008/", "")
+
+        self.assertEqual(pred_homepages, [])
+
+        # year is None
+        url_predictor = URLPredictor()
+        pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2008/", None)
+
+        self.assertEqual(pred_homepages, [])
+
+        # year exists but is not contained in url
+        url_predictor = URLPredictor()
+        pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2007/", "2008")
+
+        self.assertEqual(pred_homepages, [])
+
+    def test_create_pred_event(self):
+        #TODO
+        self.assertEqual(1,1)
+
+    def test_get_latest_event(self):
+        #TODO
+        self.assertEqual(1,1)
+
+    def test_predict(self):
         mock_past_event = PastEvent(
             eventTitle = "10th International Conference on Enterprise Information Systems",
             country = "Spain",
