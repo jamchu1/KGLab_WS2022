@@ -1,6 +1,10 @@
 from KGLab_WS2022.database_utils import DatabaseUtils
 from KGLab_WS2022.event_predictor import EventPredictor
 from lodstorage.sparql import SPARQL
+from tests.test_nlppredictor import NLPPredictorTest
+
+#testObj = NLPPredictorTest()
+#testObj.testPrediction()
 
 table = DatabaseUtils.extract_events()
 
