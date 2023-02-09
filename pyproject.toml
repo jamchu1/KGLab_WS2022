@@ -21,7 +21,8 @@ dependencies = [
         'semanticscholar~=0.3.0',
         'requests_html~=0.10.0',
         'bs4~=0.0.1',
-        'pyLookupParser~=0.0.2'
+        'pyLookupParser~=0.0.2',
+        'justpy~=0.12.1'
      ]
 version = "0.1.0"
 

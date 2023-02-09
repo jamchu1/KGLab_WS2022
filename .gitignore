@@ -136,3 +136,4 @@ dmypy.json
 
 # databases
 KGLab_WS2022/databases/EventCorpus.db
+KGLab_WS2022/databases/event.db

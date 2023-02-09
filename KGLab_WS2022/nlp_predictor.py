@@ -5,24 +5,31 @@ from bs4 import BeautifulSoup
 from plp import eventrefparser
 
 class NLPPredictor:
+
+    eParser = None
+
+    def __init__(self):
+        self.eParser = eventrefparser.EventReferenceParser()
+
     def predict(self, series: Series):
 
         # TODO check if homepage exists
         session = HTMLSession()
-        html = session.get(series.homepage).text
+        try:
+            html = session.get(series.homepage).text
+        except:
+            return None
         beautifulSoup = BeautifulSoup(html, features="lxml")
-        pageText = beautifulSoup.get_text()
-
-        print(pageText)
-
-        eParser = eventrefparser.EventReferenceParser()
-        tokenSequence = eParser.parse(eventReference=pageText, eventContext=None, show=False)
-        #acronymMatches = tokenSequence.getTokenOfCategory("acronym")
-        #cityPrefixMatches = tokenSequence.getTokenOfCategory("cityPrefix")
+        pageText = beautifulSoup.get_text()[:700]
+            
+        tokenSequence = self.eParser.parse(eventReference=pageText, eventContext=None, show=False)
         cityMatches = tokenSequence.getTokenOfCategory("city")
         yearMatches = tokenSequence.getTokenOfCategory("year")
         ordinalMatches = tokenSequence.getTokenOfCategory("Ordinal")
         countryMatches = tokenSequence.getTokenOfCategory("country")
+        
+        #acronymMatches = tokenSequence.getTokenOfCategory("acronym")
+        #cityPrefixMatches = tokenSequence.getTokenOfCategory("cityPrefix")
         #monthMatches = tokenSequence.getTokenOfCategory("month")
 
         return PredEvent(
@@ -33,8 +40,8 @@ class NLPPredictor:
             language="",
             location=self.getFirst(cityMatches),
             ordinal=self.getFirst(ordinalMatches),
-            series="",
-            sourceURL="",
+            series='',#series,
+            sourceURL=series.homepage,
             startDate="",
             year=self.getFirst(yearMatches)
         )
