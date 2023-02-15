@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from KGLab_WS2022.event import Event
+from event import Event
 
 @dataclass
 class PastEvent(Event):
