@@ -1,5 +1,5 @@
-from series import Series
-from pred_event import PredEvent
+from KGLab_WS2022.series import Series
+from KGLab_WS2022.pred_event import PredEvent
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 from plp import eventrefparser

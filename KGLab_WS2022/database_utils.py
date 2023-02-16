@@ -1,8 +1,8 @@
 from lodstorage.sql import SQLDB, EntityInfo
-from table import Table
-from series import Series
-from series import fromDBSeries
-from past_event import fromDBEvent
+from KGLab_WS2022.table import Table
+from KGLab_WS2022.series import Series
+from KGLab_WS2022.series import fromDBSeries
+from KGLab_WS2022.past_event import fromDBEvent
 from pathlib import Path
 
 from lodstorage.sparql import SPARQL

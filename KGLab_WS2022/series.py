@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from dataclasses import field
-from past_event import PastEvent
+from KGLab_WS2022.past_event import PastEvent
 from typing import List
 
 @dataclass

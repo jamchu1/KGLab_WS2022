@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from dataclasses import field
-from series import Series
+from KGLab_WS2022.series import Series
 from typing import List
 
 @dataclass

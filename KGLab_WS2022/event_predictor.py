@@ -1,7 +1,7 @@
-from series import Series
-from pred_event import PredEvent
-from url_predictor import URLPredictor
-from nlp_predictor import NLPPredictor
+from KGLab_WS2022.series import Series
+from KGLab_WS2022.pred_event import PredEvent
+from KGLab_WS2022.url_predictor import URLPredictor
+from KGLab_WS2022.nlp_predictor import NLPPredictor
 
 class EventPredictor:
 
