@@ -6,5 +6,5 @@ print("extracting from DB")
 Globals.table = DatabaseUtils.extract_events()
 print("initializing Predictor")
 Globals.eventPredictor = EventPredictor()
-
+# start the ui
 initUI()

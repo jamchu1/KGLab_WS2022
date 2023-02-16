@@ -82,10 +82,10 @@ class DatabaseUtils:
             # create cachefile
             if not os.path.isfile(dbfilePath):
                 # download the database
+                print("downloading EventCorpus database")
                 Download.downloadAndExtract(DatabaseUtils.dbURL, DatabaseUtils.dbFileExt, dbfilePath)
             # Create a SQL connection to our SQLite database 
             cc_sqlDB = SQLDB(dbfilePath)
-
             # store data in cachefile
             DatabaseUtils.cacheDBHelper(oldDB=cc_sqlDB,newDB=sqlDB,entityName="eventseries_wikidata",query=
                 "SELECT eventSeriesId, acronym, title, homepage FROM eventseries_wikidata WHERE homepage IS NOT NULL"
@@ -104,19 +104,23 @@ class DatabaseUtils:
         # construct table
         table = Table([])
         # wikidata
-        entityInfo = EntityInfo([],"eventseries_wikidata", primaryKey=None)
+        entityInfo = EntityInfo([],"eventseries_wikidata")
         wdSeriesList = sqlDB.queryAll(entityInfo)
+        entityInfo = EntityInfo([],"event_wikidata")
+        wdEventList = sqlDB.queryAll(entityInfo)
         for seriesEntry in wdSeriesList:
-            events = sqlDB.query("SELECT * FROM event_wikidata WHERE eventInSeriesId = '" + seriesEntry["eventSeriesId"] + "'")
+            events = [event for event in wdEventList if event['eventInSeriesId'] == seriesEntry['eventSeriesId']]
             series = fromDBSeries(seriesEntry)
             for event in events:
                 series.eventList.append(fromDBEvent(event))
             table.eventseriesList.append(series)
         # open research
-        entityInfo = EntityInfo([],"eventseries_or", primaryKey=None)
+        entityInfo = EntityInfo([], "eventseries_or")
         orSeriesList = sqlDB.queryAll(entityInfo)
+        entityInfo = EntityInfo([], "event_or")
+        orEventList = sqlDB.queryAll(entityInfo)
         for seriesEntry in orSeriesList:
-            events = sqlDB.query("SELECT * FROM event_or WHERE inEventSeries = '" + seriesEntry["acronym"] + "'")
+            events = [event for event in orEventList if event['inEventSeries'] == seriesEntry['acronym']]
             series = fromDBSeries(seriesEntry)
             for event in events:
                 series.eventList.append(fromDBEvent(event))

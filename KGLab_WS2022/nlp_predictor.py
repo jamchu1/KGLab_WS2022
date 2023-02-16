@@ -12,8 +12,6 @@ class NLPPredictor:
         self.eParser = eventrefparser.EventReferenceParser()
 
     def predict(self, series: Series):
-
-        # TODO check if homepage exists
         session = HTMLSession()
         try:
             html = session.get(series.homepage).text
