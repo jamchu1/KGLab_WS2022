@@ -22,8 +22,7 @@ dependencies = [
         'requests_html',
         'bs4',
         'pyLookupParser',
-        'requests',
-        'json'
+        'requests'
      ]
 version = "0.1.0"
 
