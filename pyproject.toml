@@ -21,7 +21,9 @@ dependencies = [
         'semanticscholar',
         'requests_html',
         'bs4',
-        'pyLookupParser'
+        'pyLookupParser',
+        'requests',
+        'json'
      ]
 version = "0.1.0"
 
