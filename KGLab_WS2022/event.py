@@ -7,7 +7,7 @@ class Event:
     country: str
     startDate: str
     endDate: str
-    year: str
+    year: int
     language: str
     homepage: str
-    ordinal: str
+    ordinal: int
