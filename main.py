@@ -9,6 +9,7 @@ Globals.table = DatabaseUtils.extract_events()
 # start generator analysis
 ga = GenAnalyser()
 ga.analyse(Globals.table)
+ga.plotData('./KGLab_WS2022/analysis/results.json')
 
 print("initializing Predictor")
 Globals.eventPredictor = EventPredictor()

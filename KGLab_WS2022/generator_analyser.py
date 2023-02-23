@@ -5,6 +5,9 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from KGLab_WS2022.database_utils import Download 
+import matplotlib.pyplot as plt
+import math
+from scipy import stats
 
 class GenAnalyser:
 
@@ -60,8 +63,28 @@ class GenAnalyser:
                 json_object = json.dumps(count, indent=4)
                 targetfile.write(json_object)
 
-            
+    def plotData(self, file_name: str):
+
+        dictionary = json.load(open(file_name, 'r'))
+        yAxis = []
+        for item in dictionary:
+            if math.log10(item['count']) not in yAxis:
+                yAxis.append(math.log10(item['count']))
         
+        xAxis = range(len(yAxis))
+        
+        #plt.grid(True)
 
+        slope, intercept, r, p, std_err = stats.linregress(xAxis, yAxis)
+        def myfunc(x):
+            return slope * x + intercept
 
-    
+        mymodel = list(map(myfunc, xAxis))
+
+        plt.scatter(xAxis,yAxis)
+        plt.plot(xAxis, mymodel)
+        #plt.plot(xAxis,yAxis, color='maroon', marker='o')
+        plt.xlabel('generator')
+        plt.ylabel('log(count)')
+
+        plt.savefig('./KGLab_WS2022/analysis/plot.png')
