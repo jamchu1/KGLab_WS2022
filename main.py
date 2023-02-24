@@ -8,6 +8,8 @@ Globals.table = DatabaseUtils.extract_events()
 
 # start generator analysis
 ga = GenAnalyser()
+#ga.gather_pub_dates(Globals.table)
+
 ga.analyse(Globals.table)
 ga.plotData('./KGLab_WS2022/analysis/results.json')
 

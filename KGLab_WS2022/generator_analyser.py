@@ -8,37 +8,56 @@ from KGLab_WS2022.database_utils import Download
 import matplotlib.pyplot as plt
 import math
 from scipy import stats
+from newspaper import Article
+import seaborn as sns
 
 class GenAnalyser:
 
-    def gatherData(self, table: Table):
-        print("gathering generator data")
-        dict = {}
+    def yield_homepages(self, table: Table):
         count = 0
-        
         for series in table.eventseriesList:
             for event in series.eventList:
                 count += 1
                 if count % 100 == 0:
-                    print(count) 
+                    print(count)
+                if not event.homepage:
+                    continue
+                yield (event.homepage, series.acronym)
+
+    def gather_pub_dates(self, table: Table):
+            for homepage, acronym in self.yield_homepages(table):
+                pd = ""
+                keywords = []
                 try:
-                    if not event.homepage:
-                        continue
-                    #html = session.get(event.homepage, timeout=0.25)
-                    html = requests.get(event.homepage, timeout=0.7)
-                    if not html:
-                        continue
-                    beautifulSoup = BeautifulSoup(html.text, features="lxml")
-                    generator = beautifulSoup.find("meta", {"name":"generator"})
-                    if not generator:
-                        continue
-                    content = generator['content']
-                    if not content in dict:
-                        dict[content] = [series.acronym]
-                    else:
-                        dict[content].append(series.acronym)
+                    article = Article(homepage)
+                    article.download()
+                    article.parse()
+                    #article.nlp()
+                    #keywords = article.keywords
+                    pd = article.publish_date
+                    title = article.title
                 except:
-                    pass
+                    keywords = []
+                    pd = "error"
+                print(f"{acronym} ({homepage}) {title}: {pd}")
+
+    def gatherData(self, table: Table):
+        print("gathering generator data")
+        dict = {}
+        
+        for homepage, acronym in self.yield_homepages(table):
+            html = requests.get(homepage, timeout=0.7)
+            if not html:
+                continue
+            beautifulSoup = BeautifulSoup(html.text, features="lxml")
+            generator = beautifulSoup.find("meta", {"name":"generator"})
+            if not generator:
+                continue
+            content = generator['content']
+            if not content in dict:
+                dict[content] = [acronym]
+            else:
+                dict[content].append(acronym)
         
         # Serializing json
         json_object = json.dumps(dict, indent=4)
@@ -63,28 +82,35 @@ class GenAnalyser:
                 json_object = json.dumps(count, indent=4)
                 targetfile.write(json_object)
 
-    def plotData(self, file_name: str):
+    def plotData(self, file_name: str, confidence_interval=80):
 
         dictionary = json.load(open(file_name, 'r'))
         yAxis = []
         for item in dictionary:
-            if math.log10(item['count']) not in yAxis:
-                yAxis.append(math.log10(item['count']))
+            if math.log(item['count']) not in yAxis:
+                yAxis.append(math.log(item['count']))
         
-        xAxis = range(len(yAxis))
+        xAxis = [*range(len(yAxis))]
         
-        #plt.grid(True)
-
+        # calculate the linear regression manually to obtain the standard error and slope.
         slope, intercept, r, p, std_err = stats.linregress(xAxis, yAxis)
+        '''
         def myfunc(x):
             return slope * x + intercept
 
+        print(slope)
+        print(std_err)
+        
         mymodel = list(map(myfunc, xAxis))
+        '''
+        
+        sns.regplot(x=xAxis, y=yAxis, ci=confidence_interval)
 
         plt.scatter(xAxis,yAxis)
-        plt.plot(xAxis, mymodel)
+        #plt.plot(xAxis, mymodel)
         #plt.plot(xAxis,yAxis, color='maroon', marker='o')
         plt.xlabel('generator')
         plt.ylabel('log(count)')
+        plt.figtext(.65, .7, f"std_err = {round(std_err,5)}\nslope = {round(slope,5)}\nconf_interval = {confidence_interval}")
 
         plt.savefig('./KGLab_WS2022/analysis/plot.png')
