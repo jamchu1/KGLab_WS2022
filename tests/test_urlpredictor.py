@@ -38,27 +38,20 @@ class URLPredictorTest(Basetest):
     def test_create_potential_homepages(self):
         # year exists and is contained in url
         url_predictor = URLPredictor()
-        pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2008/", "2008")
 
+        pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2008/", 2008)
         self.assertEqual(pred_homepages, ["https://iceis.scitevents.org/ICEIS2009/", "https://iceis.scitevents.org/ICEIS2010/", "https://iceis.scitevents.org/ICEIS2011/", "https://iceis.scitevents.org/ICEIS2012/", "https://iceis.scitevents.org/ICEIS2013/"])
 
-        # year is an empty string
-        url_predictor = URLPredictor()
-        pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2008/", "")
-
-        self.assertEqual(pred_homepages, [])
-
         # year is None
-        url_predictor = URLPredictor()
         pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2008/", None)
-
         self.assertEqual(pred_homepages, [])
 
         # year exists but is not contained in url
-        url_predictor = URLPredictor()
-        pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2007/", "2008")
-
+        pred_homepages = url_predictor.create_potential_homepages("https://iceis.scitevents.org/ICEIS2007/", 2008)
         self.assertEqual(pred_homepages, [])
+
+        pred_homepages = url_predictor.create_potential_homepages("https://aaai.org/Conferences/AAAI-23/", 2023)
+        self.assertEqual(pred_homepages, ["https://aaai.org/Conferences/AAAI-24/", "https://aaai.org/Conferences/AAAI-25/", "https://aaai.org/Conferences/AAAI-26/", "https://aaai.org/Conferences/AAAI-27/", "https://aaai.org/Conferences/AAAI-28/"])
 
     def test_create_pred_event(self):
         #TODO
@@ -74,7 +67,7 @@ class URLPredictorTest(Basetest):
             country = "Spain",
             startDate = "2008-06-12 00:00:00",
             endDate = "2008-06-16 00:00:00",
-            year = "2008",
+            year = 2008,
             homepage = "https://iceis.scitevents.org/ICEIS2008/",
             ordinal = "10",
             location = "Barcelona",

@@ -1,5 +1,6 @@
 from KGLab_WS2022.series import Series
 from KGLab_WS2022.pred_event import PredEvent
+from KGLab_WS2022.event import Event
 import requests
 from operator import attrgetter
 
@@ -14,17 +15,22 @@ class URLPredictor:
         except:
             return False
 
-    def create_potential_homepages(self, homepage, year):
+    def create_potential_homepages(self, homepage: str, year: int):
         pred_homepages = []
 
-        if year and homepage and str(year) in homepage:
-        
-            for i in range(1,6):
-                pred_homepages.append(homepage.replace(str(year), str(int(year) + i)))
-        
+        if year and homepage:
+            year_shortened = year % 100
+            if str(year) in homepage:
+                for i in range(1,6):
+                    pred_homepages.append(homepage.replace(str(year), str(year + i)))
+            elif str(year_shortened) in homepage:
+                for i in range(1,6):
+                    year_shortened_plus_i = (year_shortened + i) % 100
+                    pred_homepages.append(homepage.replace(str(year_shortened), str(year_shortened_plus_i)))
+
         return pred_homepages
     
-    def create_pred_event(self, series, last_event, homepage, year_offset):
+    def create_pred_event(self, series: Series, last_event: Event, homepage: str, year_offset: int):
         try:
             pred_ordinal = str(int(last_event.ordinal)+1)
         except:
