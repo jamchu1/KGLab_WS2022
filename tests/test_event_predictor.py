@@ -17,7 +17,8 @@ class EventPredictorTest(Basetest):
             endDate=None,
             language=None,
             sourceURL="sourceURL 1",
-            series="series"
+            series="series",
+            generator=None
         )
 
         mock_nlp_pred = PredEvent(
@@ -31,7 +32,8 @@ class EventPredictorTest(Basetest):
             endDate=None,
             language=None,
             sourceURL="sourceURL 2",
-            series="series"
+            series="series",
+            generator=None
         )
 
         expected_combined_pred = PredEvent(
@@ -45,7 +47,8 @@ class EventPredictorTest(Basetest):
             endDate=None,
             language=None,
             sourceURL="sourceURL 1, sourceURL 2",
-            series="series"
+            series="series",
+            generator=None
         )
      
         self.assertEqual(

@@ -50,7 +50,8 @@ class EventPredictor:
                 endDate=nlp_prediction.endDate,
                 language=nlp_prediction.language,
                 sourceURL=f'{url_prediction.sourceURL}, {nlp_prediction.sourceURL}',
-                series=url_prediction.series
+                series=url_prediction.series,
+                generator=nlp_prediction.generator
             )
         elif url_prediction and not nlp_prediction:
             return url_prediction
