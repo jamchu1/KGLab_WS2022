@@ -32,13 +32,13 @@ class URLPredictor:
     
     def create_pred_event(self, series: Series, last_event: Event, homepage: str, year_offset: int):
         try:
-            pred_ordinal = str(int(last_event.ordinal)+1)
+            pred_ordinal = int(last_event.ordinal)+1
         except:
             pred_ordinal = None
         return PredEvent(
             eventTitle=last_event.eventTitle,
             country=None,
-            year=str(int(last_event.year) + year_offset),
+            year=int(last_event.year) + year_offset,
             homepage=homepage,
             ordinal=pred_ordinal,
             location=None,
@@ -76,23 +76,3 @@ class URLPredictor:
         for year_offset, homepage in enumerate(pred_homepages,1):
             if self.check_homepage(homepage):
                 return self.create_pred_event(series, last_event, homepage, year_offset)
-        
-        '''
-        #predict based on ordinal number, TODO: find test case
-        elif last_event.ordinal != None and last_event.ordinal != "" and last_event.ordinal in last_homepage:
-            pred_homepage = last_homepage.replace(last_event.ordinal, str(int(last_event.ordinal)+1))
-            if self.check_homepage(pred_homepage):
-                return PredEvent(
-                    eventTitle=last_event.eventTitle,
-                    country=None,
-                    year=None,
-                    homepage=pred_homepage,
-                    ordinal=str(int(last_event.ordinal)+1),
-                    location=None,
-                    startDate=None,
-                    endDate=None,
-                    language=None,
-                    sourceURL=last_homepage,
-                    series=series
-                )
-        '''

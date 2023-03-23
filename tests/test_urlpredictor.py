@@ -83,5 +83,5 @@ class URLPredictorTest(Basetest):
         self.assertEqual(pred_event.eventTitle, mock_past_event.eventTitle)
         self.assertEqual(pred_event.sourceURL, "https://iceis.scitevents.org/ICEIS2008/")
         self.assertEqual(pred_event.homepage, "https://iceis.scitevents.org/ICEIS2009/")
-        self.assertEqual(pred_event.year, "2009")
+        self.assertEqual(pred_event.year, 2009)
         
