@@ -12,6 +12,7 @@ def _try(o):
 @dataclass
 class PredEvent(Event):
     sourceURL: str
+    generator: str
     series: Series
     
     def to_JSON(self):

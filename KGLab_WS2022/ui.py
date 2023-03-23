@@ -19,7 +19,6 @@ def btn_click(self, msg):
         self.target[0].text = 'no series found for given acronym'
     else:
         # predict this series
-        
         event = Globals.eventPredictor.predict(targetSeries)
         if event is None:
             self.target[0].text = 'could not predict'
