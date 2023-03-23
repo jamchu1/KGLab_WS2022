@@ -18,6 +18,10 @@ class NLPPredictor:
         except:
             return None
         beautifulSoup = BeautifulSoup(html, features="lxml")
+        generator = None
+        generatorTag = beautifulSoup.find("meta", {"name":"generator"})
+        if generatorTag:
+            generator = generatorTag['content']
         pageText = beautifulSoup.get_text()[:700]
             
         tokenSequence = self.eParser.parse(eventReference=pageText, eventContext=None, show=False)
@@ -26,25 +30,32 @@ class NLPPredictor:
         ordinalMatches = tokenSequence.getTokenOfCategory("Ordinal")
         countryMatches = tokenSequence.getTokenOfCategory("country")
         
-        #acronymMatches = tokenSequence.getTokenOfCategory("acronym")
-        #cityPrefixMatches = tokenSequence.getTokenOfCategory("cityPrefix")
-        #monthMatches = tokenSequence.getTokenOfCategory("month")
+        country=self.getFirst(countryMatches)
+        location=self.getFirst(cityMatches)
+        ordinal=self.getFirst(ordinalMatches)
+        year=self.getFirst(yearMatches)
+
+        # return None if nothing was predicted
+        if all(val is None for val in [country, location, ordinal, year, generator]):
+            return
 
         return PredEvent(
-            country=self.getFirst(countryMatches),
-            endDate="",
-            eventTitle="",
-            homepage="",
-            language="",
-            location=self.getFirst(cityMatches),
-            ordinal=self.getFirst(ordinalMatches),
-            series='',#series,
+            country=country,
+            endDate=None,
+            eventTitle=None,
+            homepage=None,
+            language=None,
+            location=location,
+            ordinal=ordinal,
+            series=series,
             sourceURL=series.homepage,
-            startDate="",
-            year=self.getFirst(yearMatches)
+            startDate=None,
+            year=year,
+            generator=generator
         )
     
     def getFirst(self, tokenList):
         if len(tokenList) == 0:
             return None
-        return tokenList[0].tokenStr
+        else:
+            return tokenList[0].tokenStr

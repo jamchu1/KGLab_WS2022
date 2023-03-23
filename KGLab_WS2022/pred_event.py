@@ -5,4 +5,5 @@ from KGLab_WS2022.series import Series
 @dataclass
 class PredEvent(Event):
     sourceURL: str
+    generator: str
     series: Series

@@ -6,6 +6,63 @@ from KGLab_WS2022.nlp_predictor import NLPPredictor
 class NLPPredictorTest(Basetest):
 
     def testPrediction(self):
+
+        nlp = NLPPredictor()
+        
+        testData = [
+            {
+                "mockSeries": Series(
+                    acronym="PERCOM",
+                    title="IEEE International Conference on Pervasive Computing and Communications",
+                    homepage="https://www.percom.org/",
+                    eventList=[]
+                ),
+                "expectedValues": {
+                    "year": "2023"
+                }
+            },
+            {
+                "mockSeries": Series(
+                    acronym="WEBIST",
+                    title="International Conference on Web Information Systems and Technologies",
+                    homepage="https://webist.scitevents.org",
+                    eventList=[]
+                ),
+                "expectedValues": {
+                    "year": "2023"
+                }
+            },
+            {
+                "mockSeries": Series(
+                    acronym="WEBIST",
+                    title="International Conference on Web Information Systems and Technologies",
+                    homepage="https://naacl.org",
+                    eventList=[]
+                ),
+                "expectedValues": {
+                    "location": "Seattle,"
+                }
+            },
+            {
+                "mockSeries": Series(
+                    acronym="WEBIST",
+                    title="International Conference on Web Information Systems and Technologies",
+                    homepage="https://recsys.acm.org",
+                    eventList=[]
+                ),
+                "expectedValues": {
+                    "year": "2022"
+                }
+            }
+        ]
+
+        for ele in testData:
+            predEvent = nlp.predict(ele["mockSeries"])
+            for k, v in ele["expectedValues"].items():
+                self.assertEqual(predEvent.__dict__[k], v)
+
+
+        """
         mockPastEvent = PastEvent(
             eventTitle = "",
             country = "Spain",
@@ -25,11 +82,6 @@ class NLPPredictorTest(Basetest):
             homepage="https://www.percom.org/",
             eventList=[mockPastEvent]
         )
-
-        nlp = NLPPredictor()
-        predEvent = nlp.predict(mockSeries)
-        
-        print(predEvent)
-        self.assertEqual(predEvent.year, '2023')
+        """
 
         

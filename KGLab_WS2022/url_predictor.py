@@ -46,7 +46,8 @@ class URLPredictor:
             endDate=None,
             language=None,
             sourceURL=last_event.homepage,
-            series=series
+            series=series,
+            generator=None
         )
 
     def get_latest_event(self, series):
@@ -93,6 +94,7 @@ class URLPredictor:
                     endDate=None,
                     language=None,
                     sourceURL=last_homepage,
-                    series=series
+                    series=series,
+                    generator=None
                 )
         '''

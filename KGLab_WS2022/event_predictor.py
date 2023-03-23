@@ -13,12 +13,18 @@ class EventPredictor:
         self.nlp_predictor = NLPPredictor()
 
     def combine_results(self, url_prediction, nlp_prediction):
-        if url_prediction:
-            return url_prediction
-        elif nlp_prediction:
-            return nlp_prediction
-        else:
+        if not url_prediction and not nlp_prediction:
             return
+        else:
+            if not nlp_prediction:
+                return url_prediction
+            if not url_prediction:
+                return nlp_prediction
+            # get dict and filter out None value
+            filteredDict = {key:value for (key,value) in url_prediction.__dict__.items() if value}
+            # merge predictions
+            nlp_prediction.__dict__.update(filteredDict)
+            return nlp_prediction
 
     def predict(self, series: Series):
         url_prediction = self.url_predictor.predict(series)
