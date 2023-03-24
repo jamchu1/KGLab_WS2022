@@ -14,37 +14,30 @@ class EventPredictor:
 
     def combine_results(self, url_prediction, nlp_prediction):
         if url_prediction and nlp_prediction:
-            if nlp_prediction.eventTitle:
-                pred_eventTitle = nlp_prediction.eventTitle
-            else:
-                pred_eventTitle = url_prediction.eventTitle
+            merged_data = []
 
-            if nlp_prediction.year:
-                pred_year = nlp_prediction.year
-            else:
-                pred_year = url_prediction.year
+            # nlp prediction is preferred:
+            keys = ["eventTitle", "ordinal"]
+            for key in keys:
+                if hasattr(nlp_prediction, key):
+                    merged_data.append(getattr(nlp_prediction, key))
+                else:
+                    merged_data.append(getattr(url_prediction, key))
 
-            if nlp_prediction.year:
-                pred_year = nlp_prediction.year
-            else:
-                pred_year = url_prediction.year
-
-            if url_prediction.homepage:
-                pred_homepage = url_prediction.homepage
-            else:
-                pred_homepage = nlp_prediction.homepage
-            
-            if nlp_prediction.ordinal:
-                pred_ordinal = nlp_prediction.ordinal
-            else:
-                pred_ordinal = url_prediction.ordinal
+            # url prediction is preferred:
+            keys = ["year", "homepage"]
+            for key in keys:
+                if hasattr(url_prediction, key):
+                    merged_data.append(getattr(url_prediction, key))
+                else:
+                    merged_data.append(getattr(nlp_prediction, key))
             
             return PredEvent(
-                eventTitle=pred_eventTitle,
+                eventTitle=merged_data[0],
                 country=nlp_prediction.country,
-                year=pred_year,
-                homepage=pred_homepage,
-                ordinal=pred_ordinal,
+                year=merged_data[2],
+                homepage=merged_data[3],
+                ordinal=merged_data[1],
                 location=nlp_prediction.location,
                 startDate=nlp_prediction.startDate,
                 endDate=nlp_prediction.endDate,
