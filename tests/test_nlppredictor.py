@@ -40,7 +40,7 @@ class NLPPredictorTest(Basetest):
                     eventList=[]
                 ),
                 "expectedValues": {
-                    "location": "Seattle,"
+                    "location": "Seattle"
                 }
             },
             {
