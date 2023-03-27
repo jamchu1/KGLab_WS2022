@@ -58,4 +58,4 @@ class NLPPredictor:
         if len(tokenList) == 0:
             return None
         else:
-            return tokenList[0].tokenStr
+            return tokenList[0].tokenStr.replace("\n", "").strip(",.")

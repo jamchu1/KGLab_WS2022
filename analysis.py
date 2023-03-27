@@ -18,8 +18,8 @@ ga.plotData('./KGLab_WS2022/analysis/results.json')
 pa = PredAnalyser()
 pa.count_predictions(Globals.table)
 
-print("initializing Predictor")
-Globals.eventPredictor = EventPredictor()
-
-# start the ui
-initUI()
+#print("initializing Predictor")
+#Globals.eventPredictor = EventPredictor()
+#
+## start the ui
+#initUI()
