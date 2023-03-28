@@ -80,7 +80,7 @@ class PredAnalyser:
         #print(f'{series_has_homepage}/{total} = {series_has_homepage/total} of the series have a homepage associated with it')
         print(f'The mean amount of attributes predicted for a series was {amount_pred_attr}/{total} = {amount_pred_attr/total}')
         print(f'The mean amount of attributes predicted for a series with a successful nlp prediction was {amount_pred_attr}/{prediction_made_nlp} = {amount_pred_attr/prediction_made_nlp}')
-        print(f'The mean amount of attributes predicted for a series with a found generator was {amount_pred_attr_generator}/{generator_found} = {amount_pred_attr/generator_found}')
+        print(f'The mean amount of attributes predicted for a series with a found generator was {amount_pred_attr_generator}/{generator_found} = {amount_pred_attr_generator/generator_found}')
 
         json_object = json.dumps(dict, indent=4)
         
