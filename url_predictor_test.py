@@ -16,12 +16,31 @@ countSuccess = 0
 for series in Globals.table.eventseriesList:
     if len(series.eventList) < 2:
         continue
-    last = series.eventList[len(series.eventList) - 1]
-    secondLast = series.eventList[len(series.eventList) - 2]
-    if not last.homepage or not secondLast.homepage or not secondLast.year:
+
+    last_event = series.eventList[0]
+    if last_event.year:
+        last_year = int(last_event.year)
+    else:
+        last_year = 0
+    for event in series.eventList:
+        if event.year and int(event.year) > last_year:
+            last_event = event
+            last_year = int(event.year)
+    
+    second_last_event = series.eventList[0]
+    if second_last_event.year:
+        second_last_year = int(second_last_event.year)
+    else:
+        second_last_year = 0
+    for event in series.eventList:
+        if event.year and int(event.year) > second_last_year and int(event.year) < last_year:
+            second_last_event = event
+            second_last_year = int(event.year)
+
+    if not last_event.homepage or not second_last_event.homepage:
         continue
-    predictedURLs = urlPredictor.create_potential_homepages(secondLast.homepage, secondLast.year)
-    if last.homepage in predictedURLs:
+    predictedURLs = urlPredictor.create_potential_homepages(second_last_event.homepage, second_last_year)
+    if last_event.homepage in predictedURLs:
         countSuccess += 1
     countTested += 1
 
