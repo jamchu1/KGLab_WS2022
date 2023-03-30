@@ -13,7 +13,7 @@ def btn_click(self, msg):
 
     #searching for scientific event series matching acronym
     for series in Globals.table.eventseriesList:
-        if series.acronym == input:
+        if series.acronym.lower() == input.lower():
             targetSeries = series
             break
 
@@ -29,15 +29,14 @@ def btn_click(self, msg):
             self.target[0].text = 'Failure: Could not predict next event of the series:' + series.title
         else:
             #success in predicting next installment
-            self.target[0].text = 'Success: Predicted data of the next event of the "' +  str(series.title)  + '" Series: ' \
+            self.target[0].text = 'Success: For the Input "' +  input  + '" the Prediction gathered the following metadata: ' \
             + '     |       Event Title: ' + str(event.eventTitle) \
+            + '     |       Series Title: ' + str(series.title) \
+            + '     |       Ordinal: ' + str(event.ordinal) \
             + '     |       Country: ' + str(event.country) \
             + '     |       Location: ' + str(event.location) \
             + '     |       Year: ' + str(event.year) \
-            + '     |       Start Date: ' + str(event.startDate) \
-            + '     |       End Date: ' + str(event.endDate) \
-            + '     |       Language: ' + str(event.language) \
-            + '     |       Homepage: ' + str(event.homepage) \
+            + '     |       Event Homepage: ' + str(event.homepage) \
             + '     |       Series Homepage: ' + str(series.homepage)
 
 

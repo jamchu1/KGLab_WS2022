@@ -9,5 +9,5 @@ Globals.table = DatabaseUtils.extract_events()
 print("initializing Predictor")
 Globals.eventPredictor = EventPredictor()
 
-# start the ui
+#Starts the UI
 initUI()
