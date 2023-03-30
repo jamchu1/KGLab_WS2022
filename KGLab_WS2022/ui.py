@@ -5,23 +5,53 @@ class Globals:
     eventPredictor = None
 
 
+#function compares two strings disregarding case or special characters 
+def xcompare(strin1, strin2):
+    
+    str1 = strin1
+    str1 = str1.lower()
+    str1 = str1.replace(" ", "")
+    str1 = str1.replace(".", "")
+    str1 = str1.replace(",", "")
+    str1 = str1.replace("-", "")
+    str1 = str1.replace("@", "")
+    str1 = str1.replace("#", "")
+    str1 = str1.replace("'", "")
+
+    str2 = strin2
+    str2 = str2.lower()
+    str2 = str2.replace(" ", "")
+    str2 = str2.replace(".", "")
+    str2 = str2.replace(",", "")
+    str2 = str2.replace("-", "")
+    str2 = str2.replace("@", "")
+    str2 = str2.replace("#", "")
+    str2 = str2.replace("'", "")
+
+    return str1 == str2
+
+
+
 #button click handler
 def btn_click(self, msg):
-    #user input of acronym
+    #user input of event name acronym
     input = self.source.value
     targetSeries = None
 
-    #searching for scientific event series matching acronym
+    #searching for scientific event series matching input
     for series in Globals.table.eventseriesList:
-        if series.acronym.lower() == input.lower():
+        if xcompare(series.title, input):
+            targetSeries = series
+            break
+        elif xcompare(series.acronym, input):
             targetSeries = series
             break
 
     if targetSeries is None:
-        #acronym does not match with an event series
-        self.target[0].text = 'Error: No series was found for the given input: "' + input + '".'
+        #input does not match with an event series
+        self.target[0].text = 'Error: No series was found for your input: "' + input + '".'
     else:
-        #acronym matches with an event series
+        #input matches with an event series
         event = Globals.eventPredictor.predict(targetSeries)
         
         if event is None:
@@ -29,15 +59,15 @@ def btn_click(self, msg):
             self.target[0].text = 'Failure: Could not predict next event of the series:' + series.title
         else:
             #success in predicting next installment
-            self.target[0].text = 'Success: For the Input "' +  input  + '" the Prediction gathered the following metadata: ' \
-            + '     |       Event Title: ' + str(event.eventTitle) \
-            + '     |       Series Title: ' + str(series.title) \
-            + '     |       Ordinal: ' + str(event.ordinal) \
-            + '     |       Country: ' + str(event.country) \
-            + '     |       Location: ' + str(event.location) \
-            + '     |       Year: ' + str(event.year) \
-            + '     |       Event Homepage: ' + str(event.homepage) \
-            + '     |       Series Homepage: ' + str(series.homepage)
+            self.target[0].text = 'Success! For your Input "' +  input  + '" the Prediction gathered the following metadata: ' \
+            + '     | Event Title: ' + str(event.eventTitle) \
+            + '     | Series Title: ' + str(series.title) \
+            + '     | Ordinal: ' + str(event.ordinal) \
+            + '     | Country: ' + str(event.country) \
+            + '     | Location: ' + str(event.location) \
+            + '     | Year: ' + str(event.year) \
+            + '     | Event Homepage: ' + str(event.homepage) \
+            + '     | Series Homepage: ' + str(series.homepage)
 
 
 
@@ -49,10 +79,12 @@ def buildPage():
     wp = jp.WebPage()
     
     #website header
-    d = jp.Div(text='Scientific Event Predictor', a=wp, classes='w-480 text-xl m-2 p-1 bg-blue-500 text-white rounded')
+    d = jp.Div(text='Scientific Event and Conference Predictor', a=wp, classes='w-480 text-xl m-2 p-1 bg-blue-500 text-white rounded')
+    jp.I(text='Below you can check for any event series titles or acronyms and whether a prediction can be made for them:', a=wp)
+    jp.Br(a=wp)
     
     #input field
-    input = jp.Input(a=wp, classes=input_classes, placeholder='Input series acronym here')
+    input = jp.Input(a=wp, classes=input_classes, placeholder='your input...')
     
     #search button
     textView=[]
@@ -65,7 +97,7 @@ def buildPage():
     )
     
     #Description of website
-    textView.append(jp.Div(text='  This website is a tool to predict data of upcoming events from scientific event series', a=wp, classes='strong'))
+    textView.append(jp.Div(text=' The results will be shown here.', a=wp, classes='strong'))
 
     return wp
 
