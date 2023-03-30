@@ -19,7 +19,7 @@ def btn_click(self, msg):
 
     if targetSeries is None:
         #acronym does not match with an event series
-        self.target[0].text = 'Error: No series was found for the given acronym.'
+        self.target[0].text = 'Error: No series was found for the given input: "' + input + '".'
     else:
         #acronym matches with an event series
         event = Globals.eventPredictor.predict(targetSeries)
