@@ -19,17 +19,17 @@ def btn_click(self, msg):
 
     if targetSeries is None:
         #acronym does not match with an event series
-        self.target[0].text = 'No series was found for the given acronym.'
+        self.target[0].text = 'Error: No series was found for the given acronym.'
     else:
         #acronym matches with an event series
         event = Globals.eventPredictor.predict(targetSeries)
         
         if event is None:
             #failure to predict next installment
-            self.target[0].text = 'Could not predict next event of the series:' + series.title
+            self.target[0].text = 'Failure: Could not predict next event of the series:' + series.title
         else:
             #success in predicting next installment
-            self.target[0].text = 'Predicted data of the next event of the "' +  str(series.title)  + '" Series: ' \
+            self.target[0].text = 'Success: Predicted data of the next event of the "' +  str(series.title)  + '" Series: ' \
             + '     |       Event Title: ' + str(event.eventTitle) \
             + '     |       Country: ' + str(event.country) \
             + '     |       Location: ' + str(event.location) \
@@ -37,7 +37,8 @@ def btn_click(self, msg):
             + '     |       Start Date: ' + str(event.startDate) \
             + '     |       End Date: ' + str(event.endDate) \
             + '     |       Language: ' + str(event.language) \
-            + '     |       homepage: ' + str(event.homepage)
+            + '     |       Homepage: ' + str(event.homepage) \
+            + '     |       Series Homepage: ' + str(series.homepage)
 
 
 
